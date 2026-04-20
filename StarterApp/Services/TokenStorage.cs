@@ -1,3 +1,5 @@
+using StarterApp.Services;
+
 public class TokenStorage : ITokenStorage
 {
     private const string TokenKey = "auth_token";
@@ -9,7 +11,7 @@ public class TokenStorage : ITokenStorage
     }
 
     //Get Token
-    public async Task GetTokenAsync()
+    public async Task<string?> GetTokenAsync()
     {
         return await SecureStorage.Default.GetAsync(TokenKey);
     }

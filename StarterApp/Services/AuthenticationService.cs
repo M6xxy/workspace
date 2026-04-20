@@ -1,53 +1,72 @@
-using Microsoft.EntityFrameworkCore;
-using StarterApp.Database.Data;
+using AndroidX.Browser.Trusted;
+using System.Net.Http.Json;
 using StarterApp.Database.Models;
-using BCrypt.Net;
+using System.Diagnostics;
 
 namespace StarterApp.Services;
 
 public class AuthenticationService : IAuthenticationService
 {
-    private readonly AppDbContext _context;
+    private readonly HttpClient _httpClient;
+    private readonly ITokenStorage _tokenStorage;
+    public User? CurrentUser => _currentUser;
+    public bool IsAuthenticated => !string.IsNullOrWhiteSpace(_currentToken) || _currentUser != null;
+    
     private User? _currentUser;
+
+    private string? _currentToken;
     private List<string> _currentUserRoles = new();
 
     public event EventHandler<bool>? AuthenticationStateChanged;
 
-    public AuthenticationService(AppDbContext context)
-    {
-        _context = context;
-    }
-
-    public bool IsAuthenticated => _currentUser != null;
-
-    public User? CurrentUser => _currentUser;
-
     public List<string> CurrentUserRoles => _currentUserRoles;
+    
 
     public async Task<AuthenticationResult> LoginAsync(string email, string password)
     {
         try
         {
-            var user = await _context.Users
-                .Include(u => u.UserRoles)
-                .ThenInclude(ur => ur.Role)
-                .FirstOrDefaultAsync(u => u.Email == email && u.IsActive);
-
-            if (user == null)
+            //Setup Request
+            var request = new
             {
-                return new AuthenticationResult(false, "Invalid email or password");
+                email,
+                password
+            };
+
+            //POST for token 
+            var response = await _httpClient.PostAsJsonAsync("/auth/token", request);
+            var raw = await response.Content.ReadAsStringAsync();
+
+            Debug.WriteLine($"AUTH_DEBUG Status: {(int)response.StatusCode} {response.StatusCode}");
+            Debug.WriteLine($"AUTH_DEBUG Body: {raw}");
+
+            // If fails
+            if(!response.IsSuccessStatusCode)
+            {
+                var error = await response.Content.ReadAsStringAsync();
+                return new AuthenticationResult(false,$"Login Falied: {error}");
             }
 
-            if (!BCrypt.Net.BCrypt.Verify(password, user.PasswordHash))
+            // READ token
+            var tokenResponse = await response.Content.ReadFromJsonAsync<TokenResponse>();
+            // If null
+            if (tokenResponse == null || string.IsNullOrWhiteSpace(tokenResponse.Token))
             {
-                return new AuthenticationResult(false, "Invalid email or password");
+                return new AuthenticationResult(false, "Login failed: token missing");
             }
 
-            _currentUser = user;
-            _currentUserRoles = user.UserRoles
-                .Where(ur => ur.IsActive)
-                .Select(ur => ur.Role.Name)
-                .ToList();
+            //Set token
+            _currentToken = tokenResponse.Token;
+            await _tokenStorage.SaveTokenAsync(tokenResponse.Token);
+
+            // User
+            _currentUser = new User
+            {
+                Email = email,
+                IsActive = true
+            };
+
+            
 
             AuthenticationStateChanged?.Invoke(this, true);
             return new AuthenticationResult(true, "Login successful");
@@ -62,42 +81,6 @@ public class AuthenticationService : IAuthenticationService
     {
         try
         {
-            // Check if user already exists
-            var existingUser = await _context.Users.FirstOrDefaultAsync(u => u.Email == email);
-            if (existingUser != null)
-            {
-                return new AuthenticationResult(false, "User with this email already exists");
-            }
-
-            // Create password hash
-            var salt = BCrypt.Net.BCrypt.GenerateSalt();
-            var hashedPassword = BCrypt.Net.BCrypt.HashPassword(password, salt);
-
-            // Create new user
-            var user = new User
-            {
-                FirstName = firstName,
-                LastName = lastName,
-                Email = email,
-                PasswordHash = hashedPassword,
-                PasswordSalt = salt,
-                CreatedAt = DateTime.UtcNow,
-                UpdatedAt = DateTime.UtcNow,
-                IsActive = true
-            };
-
-            _context.Users.Add(user);
-            await _context.SaveChangesAsync();
-
-            // Assign default "User" role
-            var userRole = await _context.Roles.FirstOrDefaultAsync(r => r.IsDefault == true);
-            if (userRole != null)
-            {
-                var userRoleAssignment = new UserRole(user.Id, userRole.Id);
-                _context.UserRoles.Add(userRoleAssignment);
-                await _context.SaveChangesAsync();
-            }
-
             return new AuthenticationResult(true, "Registration successful");
         }
         catch (Exception ex)
@@ -131,32 +114,14 @@ public class AuthenticationService : IAuthenticationService
 
     public async Task<bool> ChangePasswordAsync(string currentPassword, string newPassword)
     {
-        if (_currentUser == null)
-            return false;
+        return false;
+    }
 
-        try
-        {
-            if (!BCrypt.Net.BCrypt.Verify(currentPassword, _currentUser.PasswordHash))
-            {
-                return false;
-            }
-
-            var salt = BCrypt.Net.BCrypt.GenerateSalt();
-            var hashedPassword = BCrypt.Net.BCrypt.HashPassword(newPassword, salt);
-
-            _currentUser.PasswordHash = hashedPassword;
-            _currentUser.PasswordSalt = salt;
-            _currentUser.UpdatedAt = DateTime.UtcNow;
-
-            _context.Users.Update(_currentUser);
-            await _context.SaveChangesAsync();
-
-            return true;
-        }
-        catch
-        {
-            return false;
-        }
+    // Constructor
+    public AuthenticationService(HttpClient httpClient, ITokenStorage tokenStorage)
+    {
+    _httpClient = httpClient;
+    _tokenStorage = tokenStorage;
     }
 }
 
@@ -171,3 +136,6 @@ public class AuthenticationResult
         Message = message;
     }
 }
+
+
+

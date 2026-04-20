@@ -4,7 +4,7 @@ namespace StarterApp.Services;
 public interface ITokenStorage
 {
     Task SaveTokenAsync(string token);
-    Task<string?> GetTokenAsnyc();
+    Task<string?> GetTokenAsync();
     Task ClearTokenAsync();
 }
 
