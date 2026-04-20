@@ -81,6 +81,26 @@ public class AuthenticationService : IAuthenticationService
     {
         try
         {
+            //Setup Request
+            var request = new
+            {
+                firstName,
+                lastName,
+                email,
+                password
+            };
+
+            //Get result
+            var response = await _httpClient.PostAsJsonAsync("/auth/register", request);
+
+            //Get response data
+             var raw = await response.Content.ReadAsStringAsync();
+            //if fails
+            if(!response.IsSuccessStatusCode)
+            {
+                return new AuthenticationResult(false,$"Failed: API ERROR({raw})");
+            }
+
             return new AuthenticationResult(true, "Registration successful");
         }
         catch (Exception ex)
