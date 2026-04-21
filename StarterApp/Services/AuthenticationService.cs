@@ -7,7 +7,7 @@ namespace StarterApp.Services;
 
 public class AuthenticationService : IAuthenticationService
 {
-    private readonly HttpClient _httpClient;
+    private readonly ApiService _apiService;
     private readonly ITokenStorage _tokenStorage;
     public User? CurrentUser => _currentUser;
     public bool IsAuthenticated => !string.IsNullOrWhiteSpace(_currentToken) || _currentUser != null;
@@ -26,29 +26,9 @@ public class AuthenticationService : IAuthenticationService
     {
         try
         {
-            //Setup Request
-            var request = new
-            {
-                email,
-                password
-            };
-
-            //POST for token 
-            var response = await _httpClient.PostAsJsonAsync("/auth/token", request);
-            var raw = await response.Content.ReadAsStringAsync();
-
-            Debug.WriteLine($"AUTH_DEBUG Status: {(int)response.StatusCode} {response.StatusCode}");
-            Debug.WriteLine($"AUTH_DEBUG Body: {raw}");
-
-            // If fails
-            if(!response.IsSuccessStatusCode)
-            {
-                var error = await response.Content.ReadAsStringAsync();
-                return new AuthenticationResult(false,$"Login Falied: {error}");
-            }
-
-            // READ token
-            var tokenResponse = await response.Content.ReadFromJsonAsync<TokenResponse>();
+            // GET token
+            var tokenResponse = await _apiService.getLoginTokenAsync(email,password);
+            
             // If null
             if (tokenResponse == null || string.IsNullOrWhiteSpace(tokenResponse.Token))
             {
@@ -79,27 +59,8 @@ public class AuthenticationService : IAuthenticationService
 
     public async Task<AuthenticationResult> RegisterAsync(string firstName, string lastName, string email, string password)
     {
-        try
-        {
-            //Setup Request
-            var request = new
-            {
-                firstName,
-                lastName,
-                email,
-                password
-            };
-
-            //Get result
-            var response = await _httpClient.PostAsJsonAsync("/auth/register", request);
-
-            //Get response data
-             var raw = await response.Content.ReadAsStringAsync();
-            //if fails
-            if(!response.IsSuccessStatusCode)
-            {
-                return new AuthenticationResult(false,$"Failed: API ERROR({raw})");
-            }
+        try {
+            var tokenResponse = await _apiService.getRegisterTokenAsync(firstName, lastName, email, password);
 
             return new AuthenticationResult(true, "Registration successful");
         }
@@ -138,9 +99,9 @@ public class AuthenticationService : IAuthenticationService
     }
 
     // Constructor
-    public AuthenticationService(HttpClient httpClient, ITokenStorage tokenStorage)
+    public AuthenticationService(ApiService apiService, ITokenStorage tokenStorage)
     {
-    _httpClient = httpClient;
+        _apiService = apiService;
     _tokenStorage = tokenStorage;
     }
 }

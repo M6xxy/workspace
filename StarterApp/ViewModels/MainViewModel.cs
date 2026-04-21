@@ -7,6 +7,7 @@ using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
 using StarterApp.Database.Models;
 using StarterApp.Services;
+using StarterApp.Views;
 
 namespace StarterApp.ViewModels;
 
@@ -105,6 +106,13 @@ public partial class MainViewModel : BaseViewModel
     private async Task NavigateToSettingsAsync()
     {
         await _navigationService.NavigateToAsync("TempPage");
+    }
+
+    // Relay command that navigates to listings page
+    [RelayCommand]
+    private async Task NavigateToListingsAsync()
+    {
+        await _navigationService.NavigateToAsync(nameof(ItemsListPage));
     }
 
 

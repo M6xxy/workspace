@@ -1,7 +1,9 @@
 {
   "ExpandedNodes": [
-    ""
+    "",
+    "\\StarterApp",
+    "\\StarterApp\\Views"
   ],
-  "SelectedNode": "\\docker-compose.yml",
+  "SelectedNode": "\\StarterApp.sln",
   "PreviewInSolutionExplorer": false
 }

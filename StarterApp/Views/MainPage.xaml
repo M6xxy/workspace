@@ -19,6 +19,9 @@
         <ToolbarItem Text="Logout" 
                      Command="{Binding LogoutCommand}"
                      IconImageSource="logout.png" />
+        <ToolbarItem Text="View Listings Page"
+                    Command="{Binding NavigateToListingsCommand}"
+                    IconImageSource="user.png"/>
     </ContentPage.ToolbarItems>
 
     <RefreshView IsRefreshing="{Binding IsBusy}" 
@@ -164,10 +167,10 @@
                             Padding="20"
                             HeightRequest="80">
                         <Border.StrokeShape>
-                            <RoundRectangle CornerRadius="12" />
+                            <RoundRectangle CornerRadius="15" />
                         </Border.StrokeShape>
                         <Border.GestureRecognizers>
-                            <TapGestureRecognizer Command="{Binding NavigateToSettingsCommand}" />
+                            <TapGestureRecognizer Command="{Binding NavigateToListingsCommand}" />
                         </Border.GestureRecognizers>
                         <Grid ColumnDefinitions="Auto,*,Auto">
                             <Label Grid.Column="0"
@@ -175,10 +178,10 @@
                                    FontSize="24"
                                    VerticalOptions="Center" />
                             <StackLayout Grid.Column="1" Margin="15,0,0,0" VerticalOptions="Center">
-                                <Label Text="Listings"
+                                <Label Text="View Listings"
                                        FontSize="16"
                                        FontAttributes="Bold" />
-                                <Label Text="View listingss"
+                                <Label Text="View and rent listings here!"
                                        FontSize="12"
                                        TextColor="{AppThemeBinding Light={StaticResource Gray600}, Dark={StaticResource Gray400}}" />
                             </StackLayout>

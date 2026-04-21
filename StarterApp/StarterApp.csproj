@@ -70,4 +70,16 @@
 	  <ProjectReference Include="../StarterApp.Database/StarterApp.Database.csproj" />
 	</ItemGroup>
 
+	<ItemGroup>
+	  <Compile Update="Views\ItemsListPage.xaml.cs">
+	    <DependentUpon>ItemsListPage.xaml</DependentUpon>
+	  </Compile>
+	</ItemGroup>
+
+	<ItemGroup>
+	  <MauiXaml Update="Views\ItemsListPage.xaml">
+	    <Generator>MSBuild:Compile</Generator>
+	  </MauiXaml>
+	</ItemGroup>
+
 </Project>

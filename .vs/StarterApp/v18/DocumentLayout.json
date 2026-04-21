@@ -1,0 +1,223 @@
+{
+  "Version": 1,
+  "WorkspaceRootPath": "C:\\Users\\M6XXY\\Desktop\\StarterApp\\",
+  "Documents": [
+    {
+      "AbsoluteMoniker": "D:0:0:{9029286B-0F5B-4F9B-9F8D-ED5E0ED91CC3}|StarterApp\\StarterApp.csproj|c:\\users\\m6xxy\\desktop\\starterapp\\starterapp\\services\\rentalservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{9029286B-0F5B-4F9B-9F8D-ED5E0ED91CC3}|StarterApp\\StarterApp.csproj|solutionrelative:starterapp\\services\\rentalservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{9029286B-0F5B-4F9B-9F8D-ED5E0ED91CC3}|StarterApp\\StarterApp.csproj|c:\\users\\m6xxy\\desktop\\starterapp\\starterapp\\services\\irentalservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{9029286B-0F5B-4F9B-9F8D-ED5E0ED91CC3}|StarterApp\\StarterApp.csproj|solutionrelative:starterapp\\services\\irentalservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{9029286B-0F5B-4F9B-9F8D-ED5E0ED91CC3}|StarterApp\\StarterApp.csproj|c:\\users\\m6xxy\\desktop\\starterapp\\starterapp\\services\\apiservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{9029286B-0F5B-4F9B-9F8D-ED5E0ED91CC3}|StarterApp\\StarterApp.csproj|solutionrelative:starterapp\\services\\apiservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{9029286B-0F5B-4F9B-9F8D-ED5E0ED91CC3}|StarterApp\\StarterApp.csproj|c:\\users\\m6xxy\\desktop\\starterapp\\starterapp\\services\\authenticationservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{9029286B-0F5B-4F9B-9F8D-ED5E0ED91CC3}|StarterApp\\StarterApp.csproj|solutionrelative:starterapp\\services\\authenticationservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{9029286B-0F5B-4F9B-9F8D-ED5E0ED91CC3}|StarterApp\\StarterApp.csproj|c:\\users\\m6xxy\\desktop\\starterapp\\starterapp\\services\\authresult.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{9029286B-0F5B-4F9B-9F8D-ED5E0ED91CC3}|StarterApp\\StarterApp.csproj|solutionrelative:starterapp\\services\\authresult.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{9029286B-0F5B-4F9B-9F8D-ED5E0ED91CC3}|StarterApp\\StarterApp.csproj|c:\\users\\m6xxy\\desktop\\starterapp\\starterapp\\services\\iauthenticationservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{9029286B-0F5B-4F9B-9F8D-ED5E0ED91CC3}|StarterApp\\StarterApp.csproj|solutionrelative:starterapp\\services\\iauthenticationservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{9029286B-0F5B-4F9B-9F8D-ED5E0ED91CC3}|StarterApp\\StarterApp.csproj|c:\\users\\m6xxy\\desktop\\starterapp\\starterapp\\viewmodels\\itemslistviewmodel.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{9029286B-0F5B-4F9B-9F8D-ED5E0ED91CC3}|StarterApp\\StarterApp.csproj|solutionrelative:starterapp\\viewmodels\\itemslistviewmodel.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{9029286B-0F5B-4F9B-9F8D-ED5E0ED91CC3}|StarterApp\\StarterApp.csproj|c:\\users\\m6xxy\\desktop\\starterapp\\starterapp\\views\\itemslistpage.xaml||{F11ACC28-31D1-4C80-A34B-F4E09D3D753C}",
+      "RelativeMoniker": "D:0:0:{9029286B-0F5B-4F9B-9F8D-ED5E0ED91CC3}|StarterApp\\StarterApp.csproj|solutionrelative:starterapp\\views\\itemslistpage.xaml||{F11ACC28-31D1-4C80-A34B-F4E09D3D753C}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{63F5972E-E11D-49EE-821E-62FFA961BC0D}|StarterApp.Database\\StarterApp.Database.csproj|c:\\users\\m6xxy\\desktop\\starterapp\\starterapp.database\\models\\item.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{63F5972E-E11D-49EE-821E-62FFA961BC0D}|StarterApp.Database\\StarterApp.Database.csproj|solutionrelative:starterapp.database\\models\\item.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{63F5972E-E11D-49EE-821E-62FFA961BC0D}|StarterApp.Database\\StarterApp.Database.csproj|c:\\users\\m6xxy\\desktop\\starterapp\\starterapp.database\\models\\role.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{63F5972E-E11D-49EE-821E-62FFA961BC0D}|StarterApp.Database\\StarterApp.Database.csproj|solutionrelative:starterapp.database\\models\\role.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    }
+  ],
+  "DocumentGroupContainers": [
+    {
+      "Orientation": 0,
+      "VerticalTabListWidth": 256,
+      "DocumentGroups": [
+        {
+          "DockedWidth": 200,
+          "SelectedChildIndex": 4,
+          "Children": [
+            {
+              "$type": "Bookmark",
+              "Name": "ST:0:0:{aa2115a1-9712-457b-9047-dbb71ca2cdd2}"
+            },
+            {
+              "$type": "Bookmark",
+              "Name": "ST:0:0:{d455e273-1acb-491f-b5c9-760a99044cf9}"
+            },
+            {
+              "$type": "Bookmark",
+              "Name": "ST:0:0:{c6f34f0d-7ae5-4f3a-be61-fe0c21ae9eb8}"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 4,
+              "Title": "AuthResult.cs",
+              "DocumentMoniker": "C:\\Users\\M6XXY\\Desktop\\StarterApp\\StarterApp\\Services\\AuthResult.cs",
+              "RelativeDocumentMoniker": "StarterApp\\Services\\AuthResult.cs",
+              "ToolTip": "C:\\Users\\M6XXY\\Desktop\\StarterApp\\StarterApp\\Services\\AuthResult.cs",
+              "RelativeToolTip": "StarterApp\\Services\\AuthResult.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-04-21T17:16:07.863Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 0,
+              "Title": "RentalService.cs",
+              "DocumentMoniker": "C:\\Users\\M6XXY\\Desktop\\StarterApp\\StarterApp\\Services\\RentalService.cs",
+              "RelativeDocumentMoniker": "StarterApp\\Services\\RentalService.cs",
+              "ToolTip": "C:\\Users\\M6XXY\\Desktop\\StarterApp\\StarterApp\\Services\\RentalService.cs",
+              "RelativeToolTip": "StarterApp\\Services\\RentalService.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAYAAAAKAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-04-21T17:15:48.941Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 5,
+              "Title": "IAuthenticationService.cs",
+              "DocumentMoniker": "C:\\Users\\M6XXY\\Desktop\\StarterApp\\StarterApp\\Services\\IAuthenticationService.cs",
+              "RelativeDocumentMoniker": "StarterApp\\Services\\IAuthenticationService.cs",
+              "ToolTip": "C:\\Users\\M6XXY\\Desktop\\StarterApp\\StarterApp\\Services\\IAuthenticationService.cs",
+              "RelativeToolTip": "StarterApp\\Services\\IAuthenticationService.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-04-21T17:15:07.882Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 1,
+              "Title": "IRentalService.cs",
+              "DocumentMoniker": "C:\\Users\\M6XXY\\Desktop\\StarterApp\\StarterApp\\Services\\IRentalService.cs",
+              "RelativeDocumentMoniker": "StarterApp\\Services\\IRentalService.cs",
+              "ToolTip": "C:\\Users\\M6XXY\\Desktop\\StarterApp\\StarterApp\\Services\\IRentalService.cs",
+              "RelativeToolTip": "StarterApp\\Services\\IRentalService.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAYAAAAjAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-04-21T17:14:59.784Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 2,
+              "Title": "ApiService.cs",
+              "DocumentMoniker": "C:\\Users\\M6XXY\\Desktop\\StarterApp\\StarterApp\\Services\\ApiService.cs",
+              "RelativeDocumentMoniker": "StarterApp\\Services\\ApiService.cs",
+              "ToolTip": "C:\\Users\\M6XXY\\Desktop\\StarterApp\\StarterApp\\Services\\ApiService.cs",
+              "RelativeToolTip": "StarterApp\\Services\\ApiService.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-04-21T17:14:30.718Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 8,
+              "Title": "Item.cs",
+              "DocumentMoniker": "C:\\Users\\M6XXY\\Desktop\\StarterApp\\StarterApp.Database\\Models\\Item.cs",
+              "RelativeDocumentMoniker": "StarterApp.Database\\Models\\Item.cs",
+              "ToolTip": "C:\\Users\\M6XXY\\Desktop\\StarterApp\\StarterApp.Database\\Models\\Item.cs",
+              "RelativeToolTip": "StarterApp.Database\\Models\\Item.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAA0AAAA3AAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-04-21T17:12:34.196Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 9,
+              "Title": "Role.cs",
+              "DocumentMoniker": "C:\\Users\\M6XXY\\Desktop\\StarterApp\\StarterApp.Database\\Models\\Role.cs",
+              "RelativeDocumentMoniker": "StarterApp.Database\\Models\\Role.cs",
+              "ToolTip": "C:\\Users\\M6XXY\\Desktop\\StarterApp\\StarterApp.Database\\Models\\Role.cs",
+              "RelativeToolTip": "StarterApp.Database\\Models\\Role.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-04-21T17:01:07.96Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 6,
+              "Title": "ItemsListViewModel.cs",
+              "DocumentMoniker": "C:\\Users\\M6XXY\\Desktop\\StarterApp\\StarterApp\\ViewModels\\ItemsListViewModel.cs",
+              "RelativeDocumentMoniker": "StarterApp\\ViewModels\\ItemsListViewModel.cs",
+              "ToolTip": "C:\\Users\\M6XXY\\Desktop\\StarterApp\\StarterApp\\ViewModels\\ItemsListViewModel.cs",
+              "RelativeToolTip": "StarterApp\\ViewModels\\ItemsListViewModel.cs",
+              "ViewState": "AgIAAAQAAAAAAAAAAAAQwBgAAAAbAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-04-21T16:53:29.269Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 7,
+              "Title": "ItemsListPage.xaml",
+              "DocumentMoniker": "C:\\Users\\M6XXY\\Desktop\\StarterApp\\StarterApp\\Views\\ItemsListPage.xaml",
+              "RelativeDocumentMoniker": "StarterApp\\Views\\ItemsListPage.xaml",
+              "ToolTip": "C:\\Users\\M6XXY\\Desktop\\StarterApp\\StarterApp\\Views\\ItemsListPage.xaml",
+              "RelativeToolTip": "StarterApp\\Views\\ItemsListPage.xaml",
+              "ViewState": "AgIAAAwAAAAAAAAAAAAmwCkAAAA6AAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003549|",
+              "WhenOpened": "2026-04-21T16:44:31.121Z",
+              "EditorCaption": ""
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "Orientation": 0,
+      "VerticalTabListWidth": 256,
+      "FloatingWindowState": {
+        "Id": "0a52866f-0752-4f67-889f-9d705c73c992",
+        "Display": 1,
+        "X": 1057,
+        "Y": 50,
+        "Width": 1372,
+        "Height": 753,
+        "WindowState": 0
+      },
+      "DocumentGroups": [
+        {
+          "DockedWidth": 200,
+          "SelectedChildIndex": 0,
+          "Children": [
+            {
+              "$type": "Document",
+              "DocumentIndex": 3,
+              "Title": "AuthenticationService.cs",
+              "DocumentMoniker": "C:\\Users\\M6XXY\\Desktop\\StarterApp\\StarterApp\\Services\\AuthenticationService.cs",
+              "RelativeDocumentMoniker": "StarterApp\\Services\\AuthenticationService.cs",
+              "ToolTip": "C:\\Users\\M6XXY\\Desktop\\StarterApp\\StarterApp\\Services\\AuthenticationService.cs",
+              "RelativeToolTip": "StarterApp\\Services\\AuthenticationService.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAEAAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-04-21T15:13:47.151Z",
+              "EditorCaption": ""
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

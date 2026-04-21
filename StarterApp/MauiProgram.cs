@@ -33,8 +33,9 @@ public static class MauiProgram
         };
 
         var tokenStorage = sp.GetRequiredService<ITokenStorage>();
+        var apiService = new ApiService(client);
 
-        return new AuthenticationService(client, tokenStorage);
+        return new AuthenticationService(apiService, tokenStorage);
         });
                 
         builder.Services.AddSingleton<INavigationService, NavigationService>();
@@ -55,6 +56,8 @@ public static class MauiProgram
         builder.Services.AddTransient<UserDetailViewModel>();
         builder.Services.AddSingleton<TempViewModel>();
         builder.Services.AddTransient<TempPage>();
+        builder.Services.AddTransient<ItemsListViewModel>();
+        builder.Services.AddTransient<ItemsListPage>();
 
 #if DEBUG
         builder.Logging.AddDebug();
