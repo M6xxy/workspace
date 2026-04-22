@@ -12,5 +12,7 @@ public partial class AppShell : Shell
 
         //Add pages to shell
         Routing.RegisterRoute(nameof(ItemsListPage), typeof(ItemsListPage));
+        //add route from listings to detail
+        Routing.RegisterRoute(nameof(ItemDetailPage), typeof(ItemDetailPage));
     }
 }

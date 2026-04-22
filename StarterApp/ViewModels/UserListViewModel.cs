@@ -27,6 +27,7 @@ namespace StarterApp.ViewModels;
 /// </remarks>
 public partial class UserListViewModel : INotifyPropertyChanged
 {
+
     /// <summary>Database context for accessing user data</summary>
     private readonly AppDbContext _context;
 

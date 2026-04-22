@@ -7,5 +7,5 @@
     Shell.FlyoutBehavior="Disabled">
 
     <ShellContent ContentTemplate="{DataTemplate views:LoginPage}" />
-
+    
 </Shell>

@@ -130,6 +130,7 @@ public partial class MainViewModel : BaseViewModel
         
         await _navigationService.NavigateToAsync("UserListPage");
     }
+    
 
     /// @brief Refreshes the dashboard data
     /// @details Relay command that reloads user data and simulates a refresh operation

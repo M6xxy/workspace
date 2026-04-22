@@ -1,8 +1,24 @@
 namespace StarterApp.ViewModels;
 
-using System.Collections.ObjectModel;
+using CommunityToolkit.Mvvm.Input;
 using StarterApp.Database.Models;
+using StarterApp.Services;
+using StarterApp.Views;
+using System.Collections.ObjectModel;
+
 public partial class ItemsListViewModel : BaseViewModel {
+    /// <summary>Service for handling navigation between pages</summary>
+    private readonly INavigationService _navigationService;
+
+    /// @brief Authentication service for managing user authentication
+    private readonly IAuthenticationService _authService;
+
+    // Relay command that navigates to listings page
+    [RelayCommand]
+    private async Task NavigateToListingDetailAsync(Item item)
+    {
+        await _navigationService.NavigateToAsync(nameof(ItemDetailPage));
+    }
     /// @brief Gets the application title from AppInfo
     /// @return The application name as a string
     public string Title => AppInfo.Name;
@@ -18,15 +34,60 @@ public partial class ItemsListViewModel : BaseViewModel {
     /// @brief Initializes a new instance of the TempViewModel class
     /// @details Default constructor with no initialization logic
     /// 
+
+    private readonly ApiService _apiService;
     public ObservableCollection<Item> Listings { get; } = new();
 
-    public ItemsListViewModel()
+    public ItemsListViewModel(ApiService apiService, INavigationService navigationService)
     {
-        Listings.Add(new Item
+        _navigationService = navigationService;
+        _apiService = apiService;
+
+        
+        
+        _ = LoadListingAsync();
+    }
+
+    //Loads listings from api
+    public async Task LoadListingAsync()
+    {
+        try
         {
-            ItemTitle = "Drill",
-            ItemDescription = "Make some holes",
-            ItemRate = 10
-        });
+            //Run api call
+            var result = await _apiService.GetListingsAsync("", "", 1, 20);
+
+            Listings.Clear();
+
+
+
+            //if null
+            if (result?.Items == null)
+            {
+                //Test listing
+                Listings.Add(new Item
+                {
+                    ItemTitle = "Listings Null",
+                    ItemDescription = "Listings Null",
+                    ItemCategory = "Listings Null",
+                    ItemOwnerName = "Listings Null",
+                    ItemRate = 20
+                });
+                return;
+            }
+
+            
+
+            //Add ressults to list
+            {
+                foreach (var item in result.Items)
+                {
+                    Listings.Add(item);
+                }
+            }
+        }
+        catch (Exception ex)
+        {
+            
+        }
     }
 }

@@ -3,6 +3,7 @@ using StarterApp.Database.Models;
 using System.Diagnostics;
 using System.Net.Http.Json;
 using System.Text.Json;
+using static Android.Provider.ContactsContract.CommonDataKinds;
 
 namespace StarterApp.Services;
 
@@ -95,9 +96,46 @@ public class ApiService
         }
 
     }
+
+    public async Task<ListingResponse> GetListingsAsync(string category, string search,int page, int pageSize) 
+    {
+        try
+        {
+
+            // Get result
+            var response = await _httpClient.GetAsync($"items?page={page}&pageSize={pageSize}");
+            var raw = await response.Content.ReadAsStringAsync();
+
+            // If fails
+            if (!response.IsSuccessStatusCode)
+            {
+                var error = await response.Content.ReadAsStringAsync();
+                return null;
+            }
+
+            //Deserialize token
+            var listingsResponse = JsonSerializer.Deserialize<ListingResponse>(
+                raw,
+                new JsonSerializerOptions
+                {
+                    PropertyNameCaseInsensitive = true
+                });
+            return listingsResponse;
+
+        }
+        catch 
+        {
+            return null;
+        }
+    }
 }
 
 public class TokenResponse
 {
     public string Token { get; set; } = string.Empty;
+}
+
+public class ListingResponse 
+{
+    public List<Item> Items { get; set; } = new();
 }
