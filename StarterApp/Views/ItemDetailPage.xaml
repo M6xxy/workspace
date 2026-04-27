@@ -4,16 +4,27 @@
              x:Class="StarterApp.Views.ItemDetailPage"
              xmlns:vm="clr-namespace:StarterApp.ViewModels"
              Title="{Binding Title}">
-    
-    <ContentPage.BindingContext>
-    <vm:ItemDetailViewModel />
-    </ContentPage.BindingContext>
-    
-    <VerticalStackLayout>
-        <Label 
-            Text="{Binding Message}"
-            FontSize="24"
-            VerticalOptions="Center" 
-            HorizontalOptions="Center" />
+
+    <VerticalStackLayout Padding="20" Spacing="10">
+        <Label Text="{Binding CurrItem.ItemTitle}"
+           FontSize="24"
+           FontAttributes="Bold" />
+
+        <Label Text="{Binding CurrItem.ItemDescription}" />
+
+        <Label Text="{Binding CurrItem.ItemCategory, StringFormat='Category: {0}'}" />
+
+        <Label Text="{Binding CurrItem.ItemRate, StringFormat='Daily Rate: £{0:F2}/day'}" />
+
+        <Label Text="{Binding CurrItem.ItemOwnerName, StringFormat='Owner Name: {0}'}" />
+        
+        <Label Text="{Binding CurrItem.OwnerRating}" />
+        
+        <Label Text="{Binding CurrItem.AverageRating}" />
+        
+        <Label Text="{Binding CurrItem.CreatedAt, StringFormat='Listing Created: {0}'}" />
+
+        <Label Text="{Binding CurrItem.IsAvailable, StringFormat='Available For Rent: {0}'}" />
+
     </VerticalStackLayout>
 </ContentPage>

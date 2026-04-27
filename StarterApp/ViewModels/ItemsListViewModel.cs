@@ -10,6 +10,27 @@ public partial class ItemsListViewModel : BaseViewModel {
     /// <summary>Service for handling navigation between pages</summary>
     private readonly INavigationService _navigationService;
 
+    //curr page
+    private int _currPage = 1;
+
+    //Page next and prev commandss
+    [RelayCommand]
+    private async Task NextPageAsync()
+    {
+        _currPage++;
+        await LoadListingAsync();
+    }
+
+    [RelayCommand]
+    private async Task PreviousPageAsync()
+    {
+        if (_currPage <= 1)
+            return;
+
+        _currPage--;
+        await LoadListingAsync();
+    }
+
     /// @brief Authentication service for managing user authentication
     private readonly IAuthenticationService _authService;
 
@@ -17,7 +38,7 @@ public partial class ItemsListViewModel : BaseViewModel {
     [RelayCommand]
     private async Task NavigateToListingDetailAsync(Item item)
     {
-        await _navigationService.NavigateToAsync(nameof(ItemDetailPage));
+        await _navigationService.NavigateToAsync(nameof(ItemDetailPage), new Dictionary<string, object> { { "id", item.Id } });
     }
     /// @brief Gets the application title from AppInfo
     /// @return The application name as a string
@@ -54,7 +75,7 @@ public partial class ItemsListViewModel : BaseViewModel {
         try
         {
             //Run api call
-            var result = await _apiService.GetListingsAsync("", "", 1, 20);
+            var result = await _apiService.GetListingsAsync("", "", _currPage, 20);
 
             Listings.Clear();
 

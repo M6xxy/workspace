@@ -3,6 +3,7 @@ using StarterApp.Database.Models;
 using System.Diagnostics;
 using System.Net.Http.Json;
 using System.Text.Json;
+using static Android.Icu.Util.LocaleData;
 using static Android.Provider.ContactsContract.CommonDataKinds;
 
 namespace StarterApp.Services;
@@ -127,6 +128,21 @@ public class ApiService
         {
             return null;
         }
+    }
+
+    public async Task<Item> GetItemInfoAsync(int id) { 
+        //Get info
+        var response = await _httpClient.GetAsync($"items/{id}");
+        var raw = await response.Content.ReadAsStringAsync();
+
+        //Deserialize
+        var itemResponse = JsonSerializer.Deserialize<Item>(raw,
+                new JsonSerializerOptions
+                {
+                    PropertyNameCaseInsensitive = true
+                });
+
+        return itemResponse;
     }
 }
 

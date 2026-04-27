@@ -7,7 +7,7 @@
              Title="{Binding Title}">
 
 
-    <Grid RowDefinitions="Auto,*" Padding="10">
+    <Grid RowDefinitions="Auto,*,Auto" Padding="10">
         <Label Text="{Binding Message}"
                Grid.Row="0"
                FontSize="24"
@@ -33,13 +33,13 @@
                             <Label Text="{Binding ItemDescription}"
                                    FontSize="14" />
 
-                            <Label Text="{Binding ItemCategory}"
+                            <Label Text="{Binding ItemCategory, StringFormat='Category: {0}'}"
                                    FontSize="14" />
 
-                            <Label Text="{Binding ItemOwnerName}"
+                            <Label Text="{Binding ItemOwnerName, StringFormat='Owner: {0}'}"
                                    FontSize="14" />
 
-                            <Label Text="{Binding ItemRate,StringFormat='£{0:F2}'}"
+                            <Label Text="{Binding ItemRate, StringFormat='Rate: £{0:F2}/day'}"
                                    FontSize="14" />
 
                             <HorizontalStackLayout Spacing="10" Margin="0,10,0,0">
@@ -56,7 +56,20 @@
                     </Frame>
                 </DataTemplate>
             </CollectionView.ItemTemplate>
-
         </CollectionView>
+        
+        <HorizontalStackLayout Grid.Row="2"
+                       HorizontalOptions="Center"
+                       Spacing="10"
+                       Margin="0,10,0,0">
+
+            <Button Text="Previous"
+            Command="{Binding PreviousPageCommand}" />
+
+            <Button Text="Next"
+            Command="{Binding NextPageCommand}" />
+
+        </HorizontalStackLayout>
+        
     </Grid>
 </ContentPage>
