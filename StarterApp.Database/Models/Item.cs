@@ -42,5 +42,7 @@ namespace StarterApp.Database.Models
 
         [JsonPropertyName("createdAt")]
         public DateTime CreatedAt { get; set; }
+
+        public bool CanEditt { get; set; }
     }
 }

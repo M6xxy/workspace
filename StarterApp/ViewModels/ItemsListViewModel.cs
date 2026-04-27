@@ -12,13 +12,22 @@ public partial class ItemsListViewModel : BaseViewModel {
 
     //curr page
     private int _currPage = 1;
+    private int? _maxPage = null;
 
     //Page next and prev commandss
     [RelayCommand]
     private async Task NextPageAsync()
     {
-        _currPage++;
-        await LoadListingAsync();
+        if (_currPage >= _maxPage)
+        {
+
+        }
+        else {
+            _currPage++;
+            await LoadListingAsync();
+        } 
+        
+        
     }
 
     [RelayCommand]
@@ -106,8 +115,14 @@ public partial class ItemsListViewModel : BaseViewModel {
                 {
                     item.CanEditt = item.OwnerId == currUserId;
                     Listings.Add(item);
+                    if (result.Items.Count == 0)
+                    {
+                        _maxPage = _currPage;
+                    }
                 }
             }
+
+
         }
         catch (Exception ex)
         {
