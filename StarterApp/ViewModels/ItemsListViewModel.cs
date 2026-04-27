@@ -59,10 +59,11 @@ public partial class ItemsListViewModel : BaseViewModel {
     private readonly ApiService _apiService;
     public ObservableCollection<Item> Listings { get; } = new();
 
-    public ItemsListViewModel(ApiService apiService, INavigationService navigationService)
+    public ItemsListViewModel(ApiService apiService, INavigationService navigationService, AuthenticationService authService)
     {
         _navigationService = navigationService;
         _apiService = apiService;
+        _authService = authService;
 
         
         
@@ -96,12 +97,14 @@ public partial class ItemsListViewModel : BaseViewModel {
                 return;
             }
 
-            
 
+            //Get currID
+            var currUserId = _authService.CurrentUser?.Id;
             //Add ressults to list
             {
                 foreach (var item in result.Items)
                 {
+                    item.CanEditt = item.OwnerId == currUserId;
                     Listings.Add(item);
                 }
             }

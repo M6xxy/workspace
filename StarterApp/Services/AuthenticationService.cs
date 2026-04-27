@@ -43,6 +43,7 @@ public class AuthenticationService : IAuthenticationService
             _currentUser = new User
             {
                 Email = email,
+                Id = tokenResponse.UserId,
                 IsActive = true
             };
 

@@ -16,7 +16,10 @@ public partial class ItemsListPage : ContentPage
         });
 
         var navigationService = new NavigationService();
+        var tokenService = new TokenStorage();
 
-        BindingContext = new ItemsListViewModel(apiService,navigationService);
+        var authService = new AuthenticationService(apiService,tokenService);
+
+        BindingContext = new ItemsListViewModel(apiService,navigationService,authService);
     }
 }

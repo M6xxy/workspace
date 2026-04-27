@@ -149,6 +149,8 @@ public class ApiService
 public class TokenResponse
 {
     public string Token { get; set; } = string.Empty;
+    public DateTime ExpiresAt { get; set; }
+    public int UserId { get; set; }
 }
 
 public class ListingResponse 
