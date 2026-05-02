@@ -103,9 +103,9 @@ public partial class MainViewModel : BaseViewModel
     /// @details Relay command that navigates to the application settings page
     /// @return A task representing the asynchronous navigation operation
     [RelayCommand]
-    private async Task NavigateToSettingsAsync()
+    private async Task NavigateToCreateListingsAsync()
     {
-        await _navigationService.NavigateToAsync("TempPage");
+        await _navigationService.NavigateToAsync("CreateItemPage");
     }
 
     // Relay command that navigates to listings page

@@ -137,7 +137,7 @@
                             <RoundRectangle CornerRadius="12" />
                         </Border.StrokeShape>
                         <Border.GestureRecognizers>
-                            <TapGestureRecognizer Command="{Binding NavigateToSettingsCommand}" />
+                            <TapGestureRecognizer Command="{Binding NavigateToCreateListingsCommand}" />
                         </Border.GestureRecognizers>
                         <Grid ColumnDefinitions="Auto,*,Auto">
                             <Label Grid.Column="0"
@@ -145,10 +145,10 @@
                                    FontSize="24"
                                    VerticalOptions="Center" />
                             <StackLayout Grid.Column="1" Margin="15,0,0,0" VerticalOptions="Center">
-                                <Label Text="App Settings"
+                                <Label Text="List Item"
                                        FontSize="16"
                                        FontAttributes="Bold" />
-                                <Label Text="Configure app preferences"
+                                <Label Text="Create a listing"
                                        FontSize="12"
                                        TextColor="{AppThemeBinding Light={StaticResource Gray600}, Dark={StaticResource Gray400}}" />
                             </StackLayout>

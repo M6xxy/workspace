@@ -38,6 +38,8 @@ public class AuthenticationService : IAuthenticationService
             //Set token
             _currentToken = tokenResponse.Token;
             await _tokenStorage.SaveTokenAsync(tokenResponse.Token);
+            Preferences.Set("jwt_token", tokenResponse.Token);
+            Preferences.Set("user_id", tokenResponse.UserId);
 
             // User
             _currentUser = new User

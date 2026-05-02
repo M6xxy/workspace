@@ -1,8 +1,11 @@
 using Java.Util;
 using StarterApp.Database.Models;
 using System.Diagnostics;
+using System.Net.Http.Headers;
 using System.Net.Http.Json;
 using System.Text.Json;
+using Microsoft.Maui.Storage;
+using System.Net.Http.Headers;
 using static Android.Icu.Util.LocaleData;
 using static Android.Provider.ContactsContract.CommonDataKinds;
 
@@ -12,6 +15,8 @@ namespace StarterApp.Services;
 public class ApiService
 {
     private readonly HttpClient _httpClient;
+
+    public string token;
 
     public ApiService(HttpClient httpClient)
     {
@@ -89,6 +94,7 @@ public class ApiService
                 {
                     PropertyNameCaseInsensitive = true
                 });
+
             return tokenResponse;
         }
         catch
@@ -98,7 +104,7 @@ public class ApiService
 
     }
 
-    public async Task<ListingResponse> GetListingsAsync(string category, string search,int page, int pageSize) 
+    public async Task<ListingResponse?> GetListingsAsync(string category, string search, int page, int pageSize)
     {
         try
         {
@@ -124,16 +130,21 @@ public class ApiService
             return listingsResponse;
 
         }
-        catch 
+        catch
         {
             return null;
         }
     }
 
-    public async Task<Item> GetItemInfoAsync(int id) { 
+    [Obsolete]
+    public async Task<Item?> GetItemInfoAsync(int id) {
         //Get info
         var response = await _httpClient.GetAsync($"items/{id}");
         var raw = await response.Content.ReadAsStringAsync();
+          
+
+        if (!response.IsSuccessStatusCode)
+            return null;
 
         //Deserialize
         var itemResponse = JsonSerializer.Deserialize<Item>(raw,
@@ -144,7 +155,48 @@ public class ApiService
 
         return itemResponse;
     }
+
+    [Obsolete]
+    public async Task<bool> CreateItemListingAsync(string title, string desc, decimal rate, int categoryId) 
+    {
+        var token = Preferences.Get("jwt_token", "");
+
+        _httpClient.DefaultRequestHeaders.Authorization =
+            new AuthenticationHeaderValue("Bearer", token);
+
+        var request = new Item
+        {
+            ItemTitle = title,
+            ItemDescription = desc,
+            ItemRate = rate,
+            CategoryId = categoryId,
+            Latitude = 0,
+            Longitude = 0
+            
+        };
+
+        var response = await _httpClient.PostAsJsonAsync("/items", request);
+
+        // AI SECTION FOR ERROR
+        if (!response.IsSuccessStatusCode)
+        {
+            var error = await response.Content.ReadAsStringAsync();
+
+            await Shell.Current.DisplayAlert(
+                "Create Listing Failed",
+                error,
+                "OK");
+
+            return false;
+        }
+
+        return response.IsSuccessStatusCode;
+    }
+
+
 }
+
+
 
 public class TokenResponse
 {

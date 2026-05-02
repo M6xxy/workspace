@@ -108,17 +108,26 @@ public partial class ItemsListViewModel : BaseViewModel {
 
 
             //Get currID
-            var currUserId = _authService.CurrentUser?.Id;
+            var currUserId = Preferences.Get("user_id", -1);
             //Add ressults to list
             {
                 foreach (var item in result.Items)
                 {
-                    item.CanEditt = item.OwnerId == currUserId;
-                    Listings.Add(item);
-                    if (result.Items.Count == 0)
+                    if (item.OwnerId == currUserId)
                     {
-                        _maxPage = _currPage;
+                        item.CanEdit = true;
                     }
+                    else 
+                    {
+                        item.CanEdit = false;
+                    }
+                    
+                    Listings.Add(item);
+                }
+
+                if (result.Items.Count == 0)
+                {
+                    _maxPage = _currPage;
                 }
             }
 

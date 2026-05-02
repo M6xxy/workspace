@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="StarterApp.Views.CreateItemPage"
+             xmlns:vm="clr-namespace:StarterApp.ViewModels"
+             Title="{Binding Title}">
+
+
+    <ScrollView>
+        <VerticalStackLayout Padding="20" Spacing="15">
+
+            <Label Text="Create Listing"
+           FontSize="28"
+           FontAttributes="Bold"
+           HorizontalOptions="Center" />
+
+            <!-- Title -->
+            <Label Text="Title" />
+            <Entry Placeholder="Enter title"
+           Text="{Binding ItemTitle}" />
+
+            <!-- Description -->
+            <Label Text="Description" />
+            <Editor Placeholder="Enter description"
+            Text="{Binding ItemDescription}"
+            HeightRequest="120" />
+
+            <!-- Daily Rate -->
+            <Label Text="Daily Rate (£)" />
+            <Entry Placeholder="0.00"
+           Keyboard="Numeric"
+           Text="{Binding ItemRate}" />
+
+            <!-- Category -->
+            <Label Text="Category ID (must be greater than 0)" />
+            <Entry Placeholder="1"
+           Keyboard="Numeric"
+           Text="{Binding CategoryId}" />
+
+
+            <Button Text="Create Listing"
+                    Command="{Binding CreateItemCommand}" />
+
+        </VerticalStackLayout>
+    </ScrollView>
+</ContentPage>

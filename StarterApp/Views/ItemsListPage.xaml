@@ -52,7 +52,7 @@
                                 CommandParameter="{Binding .}" />
 
                                 <Button Text="Edit Listing"
-                                        IsVisible="{Binding CanEditt}"
+                                        IsVisible="{Binding CanEdit}"
                                 Command="{Binding Source={RelativeSource AncestorType={x:Type ContentPage}}, Path=BindingContext.EditListingCommand}"
                                 CommandParameter="{Binding .}" />
                             </HorizontalStackLayout>
