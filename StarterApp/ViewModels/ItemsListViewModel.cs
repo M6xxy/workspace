@@ -47,8 +47,27 @@ public partial class ItemsListViewModel : BaseViewModel {
     [RelayCommand]
     private async Task NavigateToListingDetailAsync(Item item)
     {
-        await _navigationService.NavigateToAsync(nameof(ItemDetailPage), new Dictionary<string, object> { { "id", item.Id } });
+        if (item == null)
+            return;
+
+        await Shell.Current.GoToAsync($"{nameof(ItemDetailPage)}?id={item.Id}");
     }
+
+    //Nav for edit page
+    [RelayCommand]
+    private async Task EditListingAsync(Item item)
+    {
+        if (item == null)
+            return;
+
+        await Shell.Current.DisplayAlert(
+            "Edit",
+            $"Editing item ID: {item.Id}",
+            "OK");
+
+        await Shell.Current.GoToAsync($"{nameof(CreateItemPage)}?id={item.Id}");
+    }
+
     /// @brief Gets the application title from AppInfo
     /// @return The application name as a string
     public string Title => AppInfo.Name;
@@ -73,10 +92,6 @@ public partial class ItemsListViewModel : BaseViewModel {
         _navigationService = navigationService;
         _apiService = apiService;
         _authService = authService;
-
-        
-        
-        _ = LoadListingAsync();
     }
 
     //Loads listings from api

@@ -193,7 +193,34 @@ public class ApiService
         return response.IsSuccessStatusCode;
     }
 
+    public async Task<bool> UpdateItemAsync(int id, string title, string desc, decimal rate, int categoryId)
+    {
+        var token = Preferences.Get("jwt_token", "");
 
+        _httpClient.DefaultRequestHeaders.Authorization =
+            new AuthenticationHeaderValue("Bearer", token);
+
+        var request = new
+        {
+            title,
+            description = desc,
+            dailyRate = rate,
+            categoryId,
+            latitude = 0,
+            longitude = 0
+        };
+
+        var response = await _httpClient.PutAsJsonAsync($"/items/{id}", request);
+
+        if (!response.IsSuccessStatusCode)
+        {
+            var error = await response.Content.ReadAsStringAsync();
+            await Shell.Current.DisplayAlert("Update Failed", error, "OK");
+            return false;
+        }
+
+        return true;
+    }
 }
 
 

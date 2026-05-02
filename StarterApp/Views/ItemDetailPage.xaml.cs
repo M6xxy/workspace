@@ -7,6 +7,7 @@ namespace StarterApp.Views;
 public partial class ItemDetailPage : ContentPage, IQueryAttributable
 {
     private readonly ItemDetailViewModel _viewModel;
+
     public ItemDetailPage()
     {
         InitializeComponent();
@@ -18,7 +19,6 @@ public partial class ItemDetailPage : ContentPage, IQueryAttributable
 
         _viewModel = new ItemDetailViewModel(apiService);
         BindingContext = _viewModel;
-
     }
 
     public async void ApplyQueryAttributes(IDictionary<string, object> query)
@@ -29,6 +29,4 @@ public partial class ItemDetailPage : ContentPage, IQueryAttributable
             await _viewModel.loadItemInfoAsync(id);
         }
     }
-
-
 }
