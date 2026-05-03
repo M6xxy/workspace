@@ -1,27 +1,32 @@
-using System.Collections.ObjectModel;
 using CommunityToolkit.Mvvm.Input;
+using StarterApp.Database.Data.Repositories;
 using StarterApp.Database.Models;
-using StarterApp.Services;
+using System.Collections.ObjectModel;
 
 namespace StarterApp.ViewModels;
 
 public partial class RentalsViewModel : BaseViewModel
 {
-    private readonly ApiService _apiService;
+    // -------------------------- VARIBLES ---------------------------
+    private readonly IRentalRepository _rentalRepository;
 
     public string Title => "Rentals";
 
     public ObservableCollection<Rental> Rentals { get; } = new();
 
-    public RentalsViewModel(ApiService apiService)
+    public RentalsViewModel(IRentalRepository rentalRepository)
     {
-        _apiService = apiService;
+        _rentalRepository = rentalRepository;
     }
 
-    [RelayCommand]
+    // ------------------------ RELAY COMMANDS ----------------------------
+
+    [RelayCommand] // Load outgoing rental requests via API
     private async Task LoadOutgoingRentalsAsync()
     {
-        var rentals = await _apiService.GetOutgoingRentalsAsync();
+        var token = Preferences.Get("jwt_token", "");
+
+        var rentals = await _rentalRepository.GetOutgoingAsync(token);
 
         Rentals.Clear();
 
@@ -31,10 +36,12 @@ public partial class RentalsViewModel : BaseViewModel
         }
     }
 
-    [RelayCommand]
+    [RelayCommand] // Load incoming rental requests via API
     private async Task LoadIncomingRentalsAsync()
     {
-        var rentals = await _apiService.GetIncomingRentalsAsync();
+        var token = Preferences.Get("jwt_token", "");
+
+        var rentals = await _rentalRepository.GetIncomingAsync(token);
 
         Rentals.Clear();
 
@@ -43,6 +50,4 @@ public partial class RentalsViewModel : BaseViewModel
             Rentals.Add(rental);
         }
     }
-
-
 }

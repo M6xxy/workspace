@@ -4,24 +4,31 @@ using System.Diagnostics;
 using System.Net.Http.Headers;
 using System.Net.Http.Json;
 using System.Text.Json;
-using Microsoft.Maui.Storage;
-using System.Net.Http.Headers;
-using static Android.Icu.Util.LocaleData;
-using static Android.Provider.ContactsContract.CommonDataKinds;
+
 
 namespace StarterApp.Services;
 
 
 public class ApiService
 {
+
+    // ---------------------------- VARIBLES ---------------------------------------
+
+
     private readonly HttpClient _httpClient;
 
     public string token;
+
+    // -------------------------------- CONSTRUCTOR -------------------------------------
 
     public ApiService(HttpClient httpClient)
     {
         _httpClient = httpClient;
     }
+
+    // --------------------------------- METHODS -------------------------------------------
+
+    //Method for getting login token via API
     public async Task<TokenResponse?> getLoginTokenAsync(string email, string password)
     {
         try
@@ -61,6 +68,7 @@ public class ApiService
         }
     }
 
+    // Method for getting token via registering an account via API
     public async Task<TokenResponse?> getRegisterTokenAsync(string firstName, string lastName, string email, string password)
     {
         try
@@ -104,6 +112,7 @@ public class ApiService
 
     }
 
+    //Method for getting listings via API
     public async Task<ListingResponse?> GetListingsAsync(string category, string search, int page, int pageSize)
     {
         try
@@ -136,7 +145,7 @@ public class ApiService
         }
     }
 
-    [Obsolete]
+    //Method for getting item info via API
     public async Task<Item?> GetItemInfoAsync(int id) {
         //Get info
         var response = await _httpClient.GetAsync($"items/{id}");
@@ -157,13 +166,16 @@ public class ApiService
     }
 
     [Obsolete]
+    //Method for creating an item listing via API
     public async Task<bool> CreateItemListingAsync(string title, string desc, decimal rate, int categoryId) 
     {
+        //JWT TOKEN
         var token = Preferences.Get("jwt_token", "");
 
         _httpClient.DefaultRequestHeaders.Authorization =
             new AuthenticationHeaderValue("Bearer", token);
 
+        // Request
         var request = new Item
         {
             ItemTitle = title,
@@ -175,9 +187,10 @@ public class ApiService
             
         };
 
+        //Response
         var response = await _httpClient.PostAsJsonAsync("/items", request);
 
-        // AI SECTION FOR ERROR
+        //If Fails
         if (!response.IsSuccessStatusCode)
         {
             var error = await response.Content.ReadAsStringAsync();
@@ -193,13 +206,16 @@ public class ApiService
         return response.IsSuccessStatusCode;
     }
 
+    // Method for updating user listing info via API
     public async Task<bool> UpdateItemAsync(int id, string title, string desc, decimal rate, int categoryId)
     {
+        // JWT TOKEN
         var token = Preferences.Get("jwt_token", "");
 
         _httpClient.DefaultRequestHeaders.Authorization =
             new AuthenticationHeaderValue("Bearer", token);
 
+        // Request
         var request = new
         {
             title,
@@ -210,8 +226,10 @@ public class ApiService
             longitude = 0
         };
 
+        //Response
         var response = await _httpClient.PutAsJsonAsync($"/items/{id}", request);
 
+        //If fails
         if (!response.IsSuccessStatusCode)
         {
             var error = await response.Content.ReadAsStringAsync();
@@ -222,92 +240,11 @@ public class ApiService
         return true;
     }
 
-    public async Task<List<Rental>> GetOutgoingRentalsAsync()
-    {
-        var token = Preferences.Get("jwt_token", "");
-
-        _httpClient.DefaultRequestHeaders.Authorization =
-            new AuthenticationHeaderValue("Bearer", token);
-
-        var response = await _httpClient.GetAsync("/rentals/outgoing");
-        var raw = await response.Content.ReadAsStringAsync();
-
-        if (!response.IsSuccessStatusCode)
-        {
-            await Shell.Current.DisplayAlert("Rentals Error", raw, "OK");
-            return new List<Rental>();
-        }
-
-        var result = JsonSerializer.Deserialize<RentalResponse>(
-            raw,
-            new JsonSerializerOptions
-            {
-                PropertyNameCaseInsensitive = true
-            });
-
-        return result?.Rentals ?? new List<Rental>();
-    }
-
-    public async Task<List<Rental>> GetIncomingRentalsAsync()
-    {
-        var token = Preferences.Get("jwt_token", "");
-
-        _httpClient.DefaultRequestHeaders.Authorization =
-            new AuthenticationHeaderValue("Bearer", token);
-
-        var response = await _httpClient.GetAsync("/rentals/incoming");
-        var raw = await response.Content.ReadAsStringAsync();
-
-        if (!response.IsSuccessStatusCode)
-        {
-            await Shell.Current.DisplayAlert("Rentals Error", raw, "OK");
-            return new List<Rental>();
-        }
-
-        var result = JsonSerializer.Deserialize<RentalResponse>(
-            raw,
-            new JsonSerializerOptions
-            {
-                PropertyNameCaseInsensitive = true
-            });
-
-        return result?.Rentals ?? new List<Rental>();
-    }
-
-    public async Task<bool> CreateRentalRequestAsync(int itemId, DateTime startDate, DateTime endDate)
-    {
-        var token = Preferences.Get("jwt_token", "");
-
-        _httpClient.DefaultRequestHeaders.Authorization =
-            new AuthenticationHeaderValue("Bearer", token);
-
-        var request = new
-        {
-            itemId,
-            startDate = startDate.ToString("yyyy-MM-dd"),
-            endDate = endDate.ToString("yyyy-MM-dd")
-        };
-
-        var response = await _httpClient.PostAsJsonAsync("/rentals", request);
-
-        if (!response.IsSuccessStatusCode)
-        {
-            var error = await response.Content.ReadAsStringAsync();
-
-            await Shell.Current.DisplayAlert(
-                "Rental Request Failed",
-                error,
-                "OK");
-
-            return false;
-        }
-
-        return true;
-    }
+    
 }
 
 
-
+// ----------------------- RESPONSES FOR API ---------------------------
 public class TokenResponse
 {
     public string Token { get; set; } = string.Empty;
@@ -320,8 +257,4 @@ public class ListingResponse
     public List<Item> Items { get; set; } = new();
 }
 
-public class RentalResponse
-{
-    public List<Rental> Rentals { get; set; } = new();
-    public int TotalRentals { get; set; }
-}
+

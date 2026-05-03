@@ -1,36 +1,54 @@
 namespace StarterApp.ViewModels;
 
 using CommunityToolkit.Mvvm.Input;
+using Microsoft.Maui.Storage;
+using StarterApp.Database.Data.Repositories;
 using StarterApp.Database.Models;
 using StarterApp.Services;
 using StarterApp.Views;
 using System.Collections.ObjectModel;
 
-public partial class ItemsListViewModel : BaseViewModel {
-    /// <summary>Service for handling navigation between pages</summary>
+public partial class ItemsListViewModel : BaseViewModel
+{
+    // ----------------------- VARIBLES ---------------------------------
     private readonly INavigationService _navigationService;
+    private readonly IAuthenticationService _authService;
+    private readonly IItemRepository _itemRepository;
+    private readonly IRentalRepository _rentalRepository;
 
-    //curr page
     private int _currPage = 1;
     private int? _maxPage = null;
 
-    //Page next and prev commandss
-    [RelayCommand]
-    private async Task NextPageAsync()
-    {
-        if (_currPage >= _maxPage)
-        {
+    public string Title => AppInfo.Name;
+    public string Version => AppInfo.VersionString;
+    public string Message => "Page for listings";
 
-        }
-        else {
-            _currPage++;
-            await LoadListingAsync();
-        } 
-        
-        
+    public ObservableCollection<Item> Listings { get; } = new();
+    // ------------------------ CONSTRUCTOR -------------------------
+    public ItemsListViewModel(
+        IItemRepository itemRepository,
+        IRentalRepository rentalRepository,
+        INavigationService navigationService,
+        IAuthenticationService authService)
+    {
+        _itemRepository = itemRepository;
+        _rentalRepository = rentalRepository;
+        _navigationService = navigationService;
+        _authService = authService;
     }
 
-    [RelayCommand]
+    // -------------------- RELAY COMMANDS ---------------------------
+    [RelayCommand] // Open next page
+    private async Task NextPageAsync()
+    {
+        if (_maxPage != null && _currPage >= _maxPage)
+            return;
+
+        _currPage++;
+        await LoadListingAsync();
+    }
+
+    [RelayCommand] // Open previous page
     private async Task PreviousPageAsync()
     {
         if (_currPage <= 1)
@@ -40,11 +58,7 @@ public partial class ItemsListViewModel : BaseViewModel {
         await LoadListingAsync();
     }
 
-    /// @brief Authentication service for managing user authentication
-    private readonly IAuthenticationService _authService;
-
-    // Relay command that navigates to listings page
-    [RelayCommand]
+    [RelayCommand] // Open Detail Page
     private async Task NavigateToListingDetailAsync(Item item)
     {
         if (item == null)
@@ -53,31 +67,31 @@ public partial class ItemsListViewModel : BaseViewModel {
         await Shell.Current.GoToAsync($"{nameof(ItemDetailPage)}?id={item.Id}");
     }
 
-    //Nav for edit page
-    [RelayCommand]
+    [RelayCommand] // Open Edit Lisssting Page
     private async Task EditListingAsync(Item item)
     {
         if (item == null)
             return;
 
-        await Shell.Current.DisplayAlert(
-            "Edit",
-            $"Editing item ID: {item.Id}",
-            "OK");
-
         await Shell.Current.GoToAsync($"{nameof(CreateItemPage)}?id={item.Id}");
     }
 
-    [RelayCommand]
+    [RelayCommand] // Send Rental Request via API
     private async Task RentItemAsync(Item item)
     {
         if (item == null)
             return;
 
-        var success = await _apiService.CreateRentalRequestAsync(
-            item.Id,
-            DateTime.Today,
-            DateTime.Today.AddDays(1));
+        var token = Preferences.Get("jwt_token", "");
+
+        var rental = new Rental
+        {
+            ItemId = item.Id,
+            StartDate = DateTime.Today,
+            EndDate = DateTime.Today.AddDays(1)
+        };
+
+        var success = await _rentalRepository.CreateAsync(rental, token);
 
         if (success)
         {
@@ -88,94 +102,39 @@ public partial class ItemsListViewModel : BaseViewModel {
         }
     }
 
-
-
-    /// @brief Gets the application title from AppInfo
-    /// @return The application name as a string
-    public string Title => AppInfo.Name;
-
-    /// @brief Gets the application version from AppInfo
-    /// @return The application version string
-    public string Version => AppInfo.VersionString;
-
-    /// @brief Gets a placeholder message
-    /// @return A message indicating this is a placeholder page
-    public string Message => "Page for listings";
-
-    /// @brief Initializes a new instance of the TempViewModel class
-    /// @details Default constructor with no initialization logic
-    /// 
-
-    private readonly ApiService _apiService;
-    public ObservableCollection<Item> Listings { get; } = new();
-
-    public ItemsListViewModel(ApiService apiService, INavigationService navigationService, AuthenticationService authService)
-    {
-        _navigationService = navigationService;
-        _apiService = apiService;
-        _authService = authService;
-    }
-
-    //Loads listings from api
+    // ------------------------ METHODS --------------------------------------
+    
+    // Load listing content via API
     public async Task LoadListingAsync()
     {
         try
         {
-            //Run api call
-            var result = await _apiService.GetListingsAsync("", "", _currPage, 20);
+            var items = await _itemRepository.GetPageAsync(_currPage, 20);
 
             Listings.Clear();
 
-
-
-            //if null
-            if (result?.Items == null)
+            if (items == null || items.Count == 0)
             {
-                //Test listing
-                Listings.Add(new Item
-                {
-                    ItemTitle = "Listings Null",
-                    ItemDescription = "Listings Null",
-                    ItemCategory = "Listings Null",
-                    ItemOwnerName = "Listings Null",
-                    ItemRate = 20
-                });
+                _maxPage = _currPage;
                 return;
             }
 
-
-            //Get currID
             var currUserId = Preferences.Get("user_id", -1);
-            //Add ressults to list
+
+            foreach (var item in items)
             {
-                //Set edit and rent buttons
-                foreach (var item in result.Items)
-                {
-                    if (item.OwnerId == currUserId)
-                    {
-                        item.CanEdit = true;
-                        item.CanRent = false;
-                    }
-                    else 
-                    {
-                        item.CanEdit = false;
-                        item.CanRent = true;
-                    }
-                    
-                    Listings.Add(item);
-                }
+                item.CanEdit = item.OwnerId == currUserId;
+                item.CanRent = item.OwnerId != currUserId;
 
-                if (result.Items.Count == 0)
-                {
-                    _maxPage = _currPage;
-                }
+                Listings.Add(item);
             }
-
-
         }
         catch (Exception ex)
         {
-            
+            await Shell.Current.DisplayAlert(
+                "Listings Error",
+                ex.Message,
+                "OK");
         }
     }
 }

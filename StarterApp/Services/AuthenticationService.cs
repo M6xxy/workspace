@@ -1,12 +1,13 @@
-using AndroidX.Browser.Trusted;
-using System.Net.Http.Json;
+
 using StarterApp.Database.Models;
-using System.Diagnostics;
+
 
 namespace StarterApp.Services;
 
 public class AuthenticationService : IAuthenticationService
 {
+    // ---------------------------- VARIBLES ---------------------------------------
+
     private readonly ApiService _apiService;
     private readonly ITokenStorage _tokenStorage;
     public User? CurrentUser => _currentUser;
@@ -20,8 +21,10 @@ public class AuthenticationService : IAuthenticationService
     public event EventHandler<bool>? AuthenticationStateChanged;
 
     public List<string> CurrentUserRoles => _currentUserRoles;
-    
 
+    // --------------------------------- METHODS -------------------------------------------
+
+    // Method for logging in via API
     public async Task<AuthenticationResult> LoginAsync(string email, string password)
     {
         try
@@ -50,7 +53,7 @@ public class AuthenticationService : IAuthenticationService
             };
 
             
-
+            // Change auth state
             AuthenticationStateChanged?.Invoke(this, true);
             return new AuthenticationResult(true, "Login successful");
         }
@@ -60,9 +63,10 @@ public class AuthenticationService : IAuthenticationService
         }
     }
 
+    //Method for registering an account via API
     public async Task<AuthenticationResult> RegisterAsync(string firstName, string lastName, string email, string password)
     {
-        try {
+        try {// Create account
             var tokenResponse = await _apiService.getRegisterTokenAsync(firstName, lastName, email, password);
 
             return new AuthenticationResult(true, "Registration successful");
@@ -73,11 +77,13 @@ public class AuthenticationService : IAuthenticationService
         }
     }
 
+    //Method for logging out
     public Task LogoutAsync()
     {
         _currentUser = null;
         _currentUserRoles.Clear();
         AuthenticationStateChanged?.Invoke(this, false);
+        Preferences.Clear("jwt_token");
         return Task.CompletedTask;
     }
 
@@ -109,6 +115,7 @@ public class AuthenticationService : IAuthenticationService
     }
 }
 
+// ------------------- Auth Result Classs ----------------------
 public class AuthenticationResult
 {
     public bool IsSuccess { get; }

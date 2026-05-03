@@ -1,38 +1,20 @@
-/// @file TempViewModel.cs
-/// @brief Temporary placeholder view model
-/// @author StarterApp Development Team
-/// @date 2025
-
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
+using StarterApp.Database.Data.Repositories;
+using StarterApp.Database.Models;
 using StarterApp.Services;
-using System.Windows.Input;
 
 namespace StarterApp.ViewModels;
 
-/// @brief Temporary view model for placeholder pages
-/// @details Simple view model that displays basic application information
-/// @note This is a placeholder implementation for temporary pages
 public partial class CreateItemViewModel : BaseViewModel
 {
-    private readonly ApiService _apiService;
+    private readonly IItemRepository _itemRepository;
     private readonly INavigationService _navigationService;
 
     private int editingItemId = -1;
-
-    /// @brief Gets the application title from AppInfo
-    /// @return The application name as a string
+    // ---------------------- OBSERVABLE PROPERTIES ------------------------------
     [ObservableProperty]
     private string title = "Create Listing";
-
-    /// @brief Gets the application version from AppInfo
-    /// @return The application version string
-    public string Version => AppInfo.VersionString;
-
-
-    /// @brief Initializes a new instance of the TempViewModel class
-    /// @details Default constructor with no initialization logic
-    /// 
 
     [ObservableProperty]
     private string itemTitle = "";
@@ -51,44 +33,76 @@ public partial class CreateItemViewModel : BaseViewModel
 
     [ObservableProperty]
     private decimal longitude;
+
+    // ------------------ CONSTRUCTOR ----------------------
     public CreateItemViewModel(
-        ApiService apiService,
+        IItemRepository itemRepository,
         INavigationService navigationService)
     {
-        _apiService = apiService;
+        _itemRepository = itemRepository;
         _navigationService = navigationService;
     }
+    // ------------------ METHODS -----------------------------
+
+    // METHOD FOR LOADING ITEM BY ID FOR EDITING (ASYNC)
+    public async Task LoadItemAsync(int id)
+    {
+        editingItemId = id;
+        Title = "Edit Listing";
+
+        var item = await _itemRepository.GetByIdAsync(id);
+
+        if (item == null)
+            return;
+
+        ItemTitle = item.ItemTitle;
+        ItemDescription = item.ItemDescription;
+        ItemRate = item.ItemRate;
+        CategoryId = item.CategoryId;
+        Latitude = item.Latitude ?? 0;
+        Longitude = item.Longitude ?? 0;
+    }
+
+    // ------------------ XAML COMMANDS --------------------------------
 
     [RelayCommand]
-    [Obsolete]
     private async Task CreateItemAsync()
     {
+        // MAKE SURE CATEGORY IS VALID
         if (CategoryId <= 0)
         {
             await Shell.Current.DisplayAlert("Invalid Category", "Category ID must be greater than 0.", "OK");
             return;
         }
 
-        bool success;
+        // GET JWT TOKEN
+        var token = Preferences.Get("jwt_token", "");
 
+        //CREATE NEW ITEM OBJECT TO UPLOAD TO API
+        var item = new Item
+        {
+            ItemTitle = ItemTitle,
+            ItemDescription = ItemDescription,
+            ItemRate = ItemRate,
+            CategoryId = CategoryId,
+            Latitude = Latitude,
+            Longitude = Longitude
+        };
+
+        // STATUS FOR API CALL
+        bool success;
+        
+        // IF EDITING | ELSE CREATE NEW ITEM
         if (editingItemId > 0)
         {
-            success = await _apiService.UpdateItemAsync(
-                editingItemId,
-                ItemTitle,
-                ItemDescription,
-                ItemRate,
-                CategoryId);
+            success = await _itemRepository.UpdateAsync(editingItemId, item, token);
         }
         else
         {
-            success = await _apiService.CreateItemListingAsync(
-                ItemTitle,
-                ItemDescription,
-                ItemRate,
-                CategoryId);
+            success = await _itemRepository.CreateAsync(item, token);
         }
 
+        // API SUCCESS MESSAGE
         if (success)
         {
             await Shell.Current.DisplayAlert(
@@ -98,34 +112,9 @@ public partial class CreateItemViewModel : BaseViewModel
 
             await _navigationService.NavigateBackAsync();
         }
-        else
+        else // FAILED
         {
-            await Shell.Current.DisplayAlert(
-                "Error",
-                editingItemId > 0 ? "Failed to update listing" : "Failed to create listing",
-                "OK");
+            await Shell.Current.DisplayAlert("Error", "Operation failed", "OK");
         }
-    }
-
-    [Obsolete]
-    internal async Task LoadItemAsync(int id)
-    {
-        editingItemId = id;
-        Title = "Edit Listing";
-
-        var item = await _apiService.GetItemInfoAsync(id);
-
-        if (item == null)
-        {
-            await Shell.Current.DisplayAlert("Error", "Could not load listing", "OK");
-            return;
-        }
-
-        ItemTitle = item.ItemTitle;
-        ItemDescription = item.ItemDescription;
-        ItemRate = item.ItemRate;
-        CategoryId = item.CategoryId;
-        Latitude = item.Latitude ?? 0;
-        Longitude = item.Longitude ?? 0;
     }
 }

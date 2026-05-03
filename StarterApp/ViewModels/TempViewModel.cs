@@ -3,8 +3,6 @@
 /// @author StarterApp Development Team
 /// @date 2025
 
-using CommunityToolkit.Mvvm.Input;
-using System.Windows.Input;
 
 namespace StarterApp.ViewModels;
 

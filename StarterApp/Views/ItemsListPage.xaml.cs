@@ -1,3 +1,4 @@
+using StarterApp.Database.Data.Repositories;
 using StarterApp.Services;
 using StarterApp.ViewModels;
 
@@ -5,7 +6,11 @@ namespace StarterApp.Views;
 
 public partial class ItemsListPage : ContentPage
 {
+    // ---------------------------- VARIBLES ---------------------------------------
+
     private readonly ItemsListViewModel _viewModel;
+
+    // -------------------------------- CONSTRUCTOR -------------------------------------
 
     public ItemsListPage()
     {
@@ -23,13 +28,25 @@ public partial class ItemsListPage : ContentPage
             apiService,
             tokenService);
 
+        var httpClient = new HttpClient
+        {
+            BaseAddress = new Uri("https://set09102-api.b-davison.workers.dev")
+        };
+
+        var itemRepository = new ItemRepository(httpClient);
+        var rentalRepository = new RentalRepository(httpClient);
+
         _viewModel = new ItemsListViewModel(
-            apiService,
+            itemRepository,
+            rentalRepository,
             navigationService,
             authService);
 
         BindingContext = _viewModel;
     }
+
+    // --------------------------------- METHODS -------------------------------------------
+
 
     protected override async void OnAppearing()
     {
