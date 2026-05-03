@@ -103,10 +103,4 @@
 	  </MauiXaml>
 	</ItemGroup>
 
-	<ItemGroup>
-	  <Folder Include="Test\Fixtures\" />
-	  <Folder Include="Test\Repositores\" />
-	  <Folder Include="Test\Services\" />
-	</ItemGroup>
-
 </Project>

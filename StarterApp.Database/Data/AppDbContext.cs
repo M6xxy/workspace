@@ -1,10 +1,12 @@
-﻿using System.Reflection;
-using Microsoft.EntityFrameworkCore;
+﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using StarterApp.Database.Models;
+using System.Diagnostics.CodeAnalysis;
+using System.Reflection;
 
 namespace StarterApp.Database.Data;
 
+[ExcludeFromCodeCoverage]
 public class AppDbContext : DbContext
 {
 
