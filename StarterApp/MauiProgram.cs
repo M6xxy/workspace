@@ -1,10 +1,11 @@
+using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
-using StarterApp.ViewModels;
 using StarterApp.Database.Data;
+using StarterApp.Database.Data.Repositories;
+using StarterApp.Services;
+using StarterApp.ViewModels;
 using StarterApp.Views;
 using System.Diagnostics;
-using StarterApp.Services;
-using Microsoft.Extensions.DependencyInjection;
 
 namespace StarterApp;
 
@@ -37,7 +38,17 @@ public static class MauiProgram
 
         return new AuthenticationService(apiService, tokenStorage);
         });
-                
+
+        builder.Services.AddSingleton<IItemRepository>(sp =>
+        {
+            var client = new HttpClient
+            {
+                BaseAddress = new Uri("https://set09102-api.b-davison.workers.dev")
+            };
+
+            return new ItemRepository(client);
+        });
+
         builder.Services.AddSingleton<INavigationService, NavigationService>();
 
         builder.Services.AddSingleton<AppShellViewModel>();

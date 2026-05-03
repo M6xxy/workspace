@@ -51,10 +51,16 @@
                                 Command="{Binding Source={x:Reference ListingPage}, Path=BindingContext.NavigateToListingDetailCommand}"
                                 CommandParameter="{Binding .}" />
 
-                                                        <Button Text="Edit Listing"
+                                <Button Text="Edit Listing"
                                 IsVisible="{Binding CanEdit}"
+                                        BackgroundColor="Orange"
                                 Command="{Binding Source={x:Reference ListingPage}, Path=BindingContext.EditListingCommand}"
                                 CommandParameter="{Binding .}" />
+
+                                <Button Text="Rent Listing"                                
+                                IsVisible="{Binding CanRent}"
+                                Command="{Binding Source={x:Reference ListingPage}, Path=BindingContext.RentItemCommand}"
+                                CommandParameter="{Binding .}" />       
                             </HorizontalStackLayout>
                         </VerticalStackLayout>
 

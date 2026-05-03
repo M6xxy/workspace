@@ -80,6 +80,9 @@
 	  <Compile Update="Views\CreateItemPage.xaml.cs">
 	    <DependentUpon>CreateItemPage.xaml</DependentUpon>
 	  </Compile>
+	  <Compile Update="Views\RentalsPage.xaml.cs">
+	    <DependentUpon>RentalsPage.xaml</DependentUpon>
+	  </Compile>
 	</ItemGroup>
 
 	<ItemGroup>
@@ -90,6 +93,9 @@
 	    <Generator>MSBuild:Compile</Generator>
 	  </MauiXaml>
 	  <MauiXaml Update="Views\CreateItemPage.xaml">
+	    <Generator>MSBuild:Compile</Generator>
+	  </MauiXaml>
+	  <MauiXaml Update="Views\RentalsPage.xaml">
 	    <Generator>MSBuild:Compile</Generator>
 	  </MauiXaml>
 	</ItemGroup>

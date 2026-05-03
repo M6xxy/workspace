@@ -130,6 +130,12 @@ public partial class MainViewModel : BaseViewModel
         
         await _navigationService.NavigateToAsync("UserListPage");
     }
+
+    [RelayCommand]
+    private async Task NavigateToRentalAsync()
+    {
+        await _navigationService.NavigateToAsync(nameof(RentalsPage));
+    }
     
 
     /// @brief Refreshes the dashboard data

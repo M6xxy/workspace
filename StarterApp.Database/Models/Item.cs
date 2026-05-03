@@ -43,6 +43,14 @@ namespace StarterApp.Database.Models
         [JsonPropertyName("createdAt")]
         public DateTime CreatedAt { get; set; }
 
-        public bool CanEditt { get; set; }
+        [JsonPropertyName("latitude")]
+        public decimal? Latitude { get; set; }
+
+        [JsonPropertyName("longitude")]
+        public decimal? Longitude { get; set; }
+
+        public bool CanEdit { get; set; }
+
+        public bool CanRent {  get; set; }
     }
 }

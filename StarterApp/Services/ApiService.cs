@@ -221,6 +221,89 @@ public class ApiService
 
         return true;
     }
+
+    public async Task<List<Rental>> GetOutgoingRentalsAsync()
+    {
+        var token = Preferences.Get("jwt_token", "");
+
+        _httpClient.DefaultRequestHeaders.Authorization =
+            new AuthenticationHeaderValue("Bearer", token);
+
+        var response = await _httpClient.GetAsync("/rentals/outgoing");
+        var raw = await response.Content.ReadAsStringAsync();
+
+        if (!response.IsSuccessStatusCode)
+        {
+            await Shell.Current.DisplayAlert("Rentals Error", raw, "OK");
+            return new List<Rental>();
+        }
+
+        var result = JsonSerializer.Deserialize<RentalResponse>(
+            raw,
+            new JsonSerializerOptions
+            {
+                PropertyNameCaseInsensitive = true
+            });
+
+        return result?.Rentals ?? new List<Rental>();
+    }
+
+    public async Task<List<Rental>> GetIncomingRentalsAsync()
+    {
+        var token = Preferences.Get("jwt_token", "");
+
+        _httpClient.DefaultRequestHeaders.Authorization =
+            new AuthenticationHeaderValue("Bearer", token);
+
+        var response = await _httpClient.GetAsync("/rentals/incoming");
+        var raw = await response.Content.ReadAsStringAsync();
+
+        if (!response.IsSuccessStatusCode)
+        {
+            await Shell.Current.DisplayAlert("Rentals Error", raw, "OK");
+            return new List<Rental>();
+        }
+
+        var result = JsonSerializer.Deserialize<RentalResponse>(
+            raw,
+            new JsonSerializerOptions
+            {
+                PropertyNameCaseInsensitive = true
+            });
+
+        return result?.Rentals ?? new List<Rental>();
+    }
+
+    public async Task<bool> CreateRentalRequestAsync(int itemId, DateTime startDate, DateTime endDate)
+    {
+        var token = Preferences.Get("jwt_token", "");
+
+        _httpClient.DefaultRequestHeaders.Authorization =
+            new AuthenticationHeaderValue("Bearer", token);
+
+        var request = new
+        {
+            itemId,
+            startDate = startDate.ToString("yyyy-MM-dd"),
+            endDate = endDate.ToString("yyyy-MM-dd")
+        };
+
+        var response = await _httpClient.PostAsJsonAsync("/rentals", request);
+
+        if (!response.IsSuccessStatusCode)
+        {
+            var error = await response.Content.ReadAsStringAsync();
+
+            await Shell.Current.DisplayAlert(
+                "Rental Request Failed",
+                error,
+                "OK");
+
+            return false;
+        }
+
+        return true;
+    }
 }
 
 
@@ -235,4 +318,10 @@ public class TokenResponse
 public class ListingResponse 
 {
     public List<Item> Items { get; set; } = new();
+}
+
+public class RentalResponse
+{
+    public List<Rental> Rentals { get; set; } = new();
+    public int TotalRentals { get; set; }
 }

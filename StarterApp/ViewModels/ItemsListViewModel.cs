@@ -68,6 +68,28 @@ public partial class ItemsListViewModel : BaseViewModel {
         await Shell.Current.GoToAsync($"{nameof(CreateItemPage)}?id={item.Id}");
     }
 
+    [RelayCommand]
+    private async Task RentItemAsync(Item item)
+    {
+        if (item == null)
+            return;
+
+        var success = await _apiService.CreateRentalRequestAsync(
+            item.Id,
+            DateTime.Today,
+            DateTime.Today.AddDays(1));
+
+        if (success)
+        {
+            await Shell.Current.DisplayAlert(
+                "Success",
+                "Rental request sent",
+                "OK");
+        }
+    }
+
+
+
     /// @brief Gets the application title from AppInfo
     /// @return The application name as a string
     public string Title => AppInfo.Name;
@@ -126,15 +148,18 @@ public partial class ItemsListViewModel : BaseViewModel {
             var currUserId = Preferences.Get("user_id", -1);
             //Add ressults to list
             {
+                //Set edit and rent buttons
                 foreach (var item in result.Items)
                 {
                     if (item.OwnerId == currUserId)
                     {
                         item.CanEdit = true;
+                        item.CanRent = false;
                     }
                     else 
                     {
                         item.CanEdit = false;
+                        item.CanRent = true;
                     }
                     
                     Listings.Add(item);
