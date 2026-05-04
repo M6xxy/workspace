@@ -1,4 +1,4 @@
-Tests:
+
 [![.NET Tests2](https://github.com/M6xxy/workspace/actions/workflows/main.yml/badge.svg)](https://github.com/M6xxy/workspace/actions/workflows/main.yml)
 
 # Project Overview
