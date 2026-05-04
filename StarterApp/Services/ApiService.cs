@@ -9,7 +9,7 @@ using System.Text.Json;
 namespace StarterApp.Services;
 
 
-public class ApiService
+public class ApiService : IApiService
 {
 
     // ---------------------------- VARIBLES ---------------------------------------
@@ -20,7 +20,10 @@ public class ApiService
     public string token;
 
     // -------------------------------- CONSTRUCTOR -------------------------------------
-
+    /// <summary>
+    /// Initializes a new instance of the <see cref="ApiService"/> class.
+    /// </summary>
+    /// <param name="httpClient">HTTP client used for API communication.</param>
     public ApiService(HttpClient httpClient)
     {
         _httpClient = httpClient;

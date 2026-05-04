@@ -34,6 +34,7 @@ public class AboutViewModel
 
     /// @brief Initializes a new instance of the AboutViewModel class
     /// @details Sets up the ShowMoreInfoCommand with async relay command
+    /// 
     public AboutViewModel()
     {
         ShowMoreInfoCommand = new AsyncRelayCommand(ShowMoreInfo);
