@@ -25,6 +25,12 @@ public class AuthenticationService : IAuthenticationService
     // --------------------------------- METHODS -------------------------------------------
 
     // Method for logging in via API
+    /// <summary>
+    /// Logs in a user through the API and stores the returned authentication token.
+    /// </summary>
+    /// <param name="email">The user's email address.</param>
+    /// <param name="password">The user's password.</param>
+    /// <returns>An authentication result indicating whether login succeeded.</returns>
     public async Task<AuthenticationResult> LoginAsync(string email, string password)
     {
         try
@@ -64,6 +70,14 @@ public class AuthenticationService : IAuthenticationService
     }
 
     //Method for registering an account via API
+    /// <summary>
+    /// Registers a new user account through the API.
+    /// </summary>
+    /// <param name="firstName">The user's first name.</param>
+    /// <param name="lastName">The user's last name.</param>
+    /// <param name="email">The user's email address.</param>
+    /// <param name="password">The user's password.</param>
+    /// <returns>An authentication result indicating whether registration succeeded.</returns>
     public async Task<AuthenticationResult> RegisterAsync(string firstName, string lastName, string email, string password)
     {
         try {// Create account
@@ -78,6 +92,10 @@ public class AuthenticationService : IAuthenticationService
     }
 
     //Method for logging out
+    /// <summary>
+    /// Logs out the current user and clears stored authentication state.
+    /// </summary>
+    /// <returns>A completed task once logout is finished.</returns>
     public Task LogoutAsync()
     {
         _currentUser = null;
@@ -87,27 +105,55 @@ public class AuthenticationService : IAuthenticationService
         return Task.CompletedTask;
     }
 
+
+    /// <summary>
+    /// Checks whether the current user has a specific role.
+    /// </summary>
+    /// <param name="roleName">The role name to check.</param>
+    /// <returns>True if the user has the role; otherwise, false.</returns>
     public bool HasRole(string roleName)
     {
         return _currentUserRoles.Contains(roleName, StringComparer.OrdinalIgnoreCase);
     }
 
+
+    /// <summary>
+    /// Checks whether the current user has at least one of the specified roles.
+    /// </summary>
+    /// <param name="roleNames">The role names to check.</param>
+    /// <returns>True if the user has any of the specified roles; otherwise, false.</returns>
     public bool HasAnyRole(params string[] roleNames)
     {
         return roleNames.Any(role => HasRole(role));
     }
 
+    /// <summary>
+    /// Checks whether the current user has all of the specified roles.
+    /// </summary>
+    /// <param name="roleNames">The role names to check.</param>
+    /// <returns>True if the user has all specified roles; otherwise, false.</returns>
     public bool HasAllRoles(params string[] roleNames)
     {
         return roleNames.All(role => HasRole(role));
     }
 
+    /// <summary>
+    /// Attempts to change the current user's password.
+    /// </summary>
+    /// <param name="currentPassword">The user's current password.</param>
+    /// <param name="newPassword">The new password to set.</param>
+    /// <returns>True if the password was changed successfully; otherwise, false.</returns>
     public async Task<bool> ChangePasswordAsync(string currentPassword, string newPassword)
     {
         return false;
     }
 
     // Constructor
+    /// <summary>
+    /// Initializes a new instance of the <see cref="AuthenticationService"/> class.
+    /// </summary>
+    /// <param name="apiService">The API service used for authentication requests.</param>
+    /// <param name="tokenStorage">The token storage service used to save authentication tokens.</param>
     public AuthenticationService(ApiService apiService, ITokenStorage tokenStorage)
     {
         _apiService = apiService;
@@ -116,6 +162,11 @@ public class AuthenticationService : IAuthenticationService
 }
 
 // ------------------- Auth Result Classs ----------------------
+/// <summary>
+/// Initializes a new instance of the <see cref="AuthenticationResult"/> class.
+/// </summary>
+/// <param name="isSuccess">Whether the authentication operation succeeded.</param>
+/// <param name="message">The result message describing the authentication outcome.</param>
 public class AuthenticationResult
 {
     public bool IsSuccess { get; }

@@ -16,9 +16,12 @@ public class ItemDetailViewModel : BaseViewModel
         get => currItem;
         set => SetProperty(ref currItem, value);
     }
-    
-    // ----------------- CONSTRUCTOR -------------------------
 
+    // ----------------- CONSTRUCTOR -------------------------
+    /// <summary>
+    /// Initializes a new instance of the <see cref="ItemDetailViewModel"/> class.
+    /// </summary>
+    /// <param name="itemRepository">Repository used for item data operations.</param>
     public ItemDetailViewModel(IItemRepository itemRepository)
     {
         _itemRepository = itemRepository;
@@ -28,6 +31,11 @@ public class ItemDetailViewModel : BaseViewModel
 
 
     // Method for loading item info based on ID via API
+    /// <summary>
+    /// Loads detailed information for a specific item.
+    /// </summary>
+    /// <param name="id">Unique identifier of the item to load.</param>
+    /// <returns>A task representing the asynchronous operation.</returns>
     public async Task LoadItemInfoAsync(int id)
     {
         CurrItem = await _itemRepository.GetByIdAsync(id);

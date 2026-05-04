@@ -9,6 +9,12 @@ public class AuthResult
     public User? User { get; set; }
     public List<string> Roles { get; set; } = new();
 
+    /// <summary>
+    /// Creates a successful authentication result.
+    /// </summary>
+    /// <param name="user">The authenticated user.</param>
+    /// <param name="roles">The roles assigned to the authenticated user.</param>
+    /// <returns>An authentication result representing a successful operation.</returns>
     public static AuthResult Success(User user, List<string> roles)
     {
         return new AuthResult
@@ -19,6 +25,11 @@ public class AuthResult
         };
     }
 
+    /// <summary>
+    /// Creates a failed authentication result.
+    /// </summary>
+    /// <param name="errorMessage">The error message describing the failure.</param>
+    /// <returns>An authentication result representing a failed operation.</returns>
     public static AuthResult Failure(string errorMessage)
     {
         return new AuthResult

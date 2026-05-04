@@ -25,6 +25,13 @@ public partial class ItemsListViewModel : BaseViewModel
 
     public ObservableCollection<Item> Listings { get; } = new();
     // ------------------------ CONSTRUCTOR -------------------------
+    /// <summary>
+    /// Initializes a new instance of the <see cref="ItemsListViewModel"/> class.
+    /// </summary>
+    /// <param name="itemRepository">Repository used for item data operations.</param>
+    /// <param name="rentalRepository">Repository used for rental data operations.</param>
+    /// <param name="navigationService">Service used for application navigation.</param>
+    /// <param name="authService">Service used for authentication operations.</param>
     public ItemsListViewModel(
         IItemRepository itemRepository,
         IRentalRepository rentalRepository,
@@ -103,8 +110,12 @@ public partial class ItemsListViewModel : BaseViewModel
     }
 
     // ------------------------ METHODS --------------------------------------
-    
+
     // Load listing content via API
+    /// <summary>
+    /// Loads item listings from the repository and updates the listings collection.
+    /// </summary>
+    /// <returns>A task representing the asynchronous operation.</returns>
     public async Task LoadListingAsync()
     {
         try

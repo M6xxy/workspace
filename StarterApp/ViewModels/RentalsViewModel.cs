@@ -13,7 +13,11 @@ public partial class RentalsViewModel : BaseViewModel
     public string Title => "Rentals";
 
     public ObservableCollection<Rental> Rentals { get; } = new();
-
+    // ------------------------------- CONSTRUCTOR ----------------------------
+    /// <summary>
+    /// Initializes a new instance of the <see cref="RentalsViewModel"/> class.
+    /// </summary>
+    /// <param name="rentalRepository">Repository used for rental data operations.</param>
     public RentalsViewModel(IRentalRepository rentalRepository)
     {
         _rentalRepository = rentalRepository;

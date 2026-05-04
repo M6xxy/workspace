@@ -35,6 +35,11 @@ public partial class CreateItemViewModel : BaseViewModel
     private decimal longitude;
 
     // ------------------ CONSTRUCTOR ----------------------
+    /// <summary>
+    /// Initializes a new instance of the <see cref="CreateItemViewModel"/> class.
+    /// </summary>
+    /// <param name="itemRepository">Repository used for item data operations.</param>
+    /// <param name="navigationService">Service used for page navigation.</param>
     public CreateItemViewModel(
         IItemRepository itemRepository,
         INavigationService navigationService)
@@ -45,6 +50,11 @@ public partial class CreateItemViewModel : BaseViewModel
     // ------------------ METHODS -----------------------------
 
     // METHOD FOR LOADING ITEM BY ID FOR EDITING (ASYNC)
+    /// <summary>
+    /// Loads an existing item for editing.
+    /// </summary>
+    /// <param name="id">Unique identifier of the item to load.</param>
+    /// <returns>A task representing the asynchronous operation.</returns>
     public async Task LoadItemAsync(int id)
     {
         editingItemId = id;
