@@ -1,91 +1,220 @@
+# Project Overview
+
+StarterApp is a .NET MAUI rental marketplace application that allows users to create listings, browse items, and manage rental requests.  
+The application follows the MVVM architectural pattern and communicates with a  API backend for authentication, item management, and rental operations.
+
+## Features
+
+- User authentication and registration
+- Item listing creation and editing
+- Item browsing 
+- Rental request system
+- Incoming and outgoing rental management
+- Repository pattern abstraction layer
+- Unit testing with xUnit
+- CI/CD pipeline using GitHub Actions
+
 ---
-title: "StarterApp readme"
-parent: StarterApp
-grand_parent: C# practice
-nav_order: 5
-mermaid: true
+
+# Setup Instructions
+
+## Requirements
+
+Install the following dependencies:
+
+- .NET 10 SDK
+- Visual Studio 2022/2026 with:
+  - .NET MAUI workload
+  - Android SDK
+- Docker Desktop
+
 ---
 
-# StarterApp
+# Docker Setup
 
-The purpose of this app is to act as a starting point for further development. It provides some
-basic features including:
+The application uses Docker containers for backend services.
 
-* Database integration and migrations
-* Role-based security
-* Local authentication
-* Example navigation
+The following containers are used:
 
-This version of the app uses PostgreSQL for data storage and Entity Framework Core for object-relational mapping
-and migrations.
+- Application API container
+- PostgreSQL database container
+- pgAdmin container
 
-To fully understand how it works, you should follow an appropriate set of tutorials such as 
-[this one](https://edinburgh-napier.github.io/SET09102/tutorials/csharp/) which covers all of the main
-concepts and techniques used here. However, if you want to jump straight in and work out any problems
-as you go along, that will also work. The code uses structured comments for use with the 
-[Doxygen](https://www.doxygen.nl/) documentation generator tool. 
+Start Docker Desktop before running the project.
 
-You can use any development environment with this project including
+Run the containers using:
 
-* [Rider](https://www.jetbrains.com/rider/)
-* [Visual Studio](https://visualstudio.microsoft.com/)
-* [Visual Studio Code](https://code.visualstudio.com/)
+```bash
+docker compose up --build
+```
 
-The instructions assume you will be using VSCode since that is a lowest-common-denominator choice.
+This will:
 
-## Compatibility
+- Build the API container
+- Start the PostgreSQL database
+- Start pgAdmin
+- Configure networking between containers
 
-This app is built using the following tool versions.
+## Default Ports
 
-| Name                                                                                      | Version     |
-|-------------------------------------------------------------------------------------------|-------------|
-| [.NET](https://dotnet.microsoft.com/en-us/)                                               | 8.0 / 9.0   |
-| [PostgreSQL Docker image](https://hub.docker.com/_/postgres)                              | 16          |
+| Service | Port |
+|---|---|
+| API | 8080 |
+| PostgreSQL | 5432 |
+| pgAdmin | 5050 |
 
+---
 
-## Getting started
+# Database Setup
 
-### Prerequisites
+The application uses PostgreSQL running inside Docker.
 
-Before using this app, ensure you have:
+Apply migrations:
 
-1. **.NET SDK 8.0** or later installed
-2. **Docker** installed and running
-3. **PostgreSQL container** running (see [dev-environment tutorial](https://edinburgh-napier.github.io/SET09102/tutorials/csharp/dev-environment/))
+```bash
+dotnet ef database update
+```
 
-### Configuration
+Example connection string:
 
-1. Copy `StarterApp.Database/appsettings.json.template` to `StarterApp.Database/appsettings.json`
-2. Update the connection string with your PostgreSQL credentials:
-   ```json
-   {
-     "ConnectionStrings": {
-       "DevelopmentConnection": "Host=localhost;Username=student_user;Password=password123;Database=starterapp"
-     }
-   }
-   ```
+```bash
+Host=localhost;Port=5432;Database=starterapp;Username=postgres;Password=password
+```
 
-### Initial Setup
+---
 
-1. Navigate to the Migrations project and create the initial migration:
-   ```bash
-   cd StarterApp.Migrations
-   dotnet ef migrations add InitialCreate
-   ```
+# How To Run The Application
 
-2. Apply the migration to create the database:
-   ```bash
-   dotnet ef database update
-   ```
+## Backend API
 
-3. Build and run the application:
-   ```bash
-   cd ../StarterApp
-   dotnet build
-   dotnet run
-   ```
+Start Docker Compose:
 
-### Tutorial
+```bash
+docker compose up --build
+```
 
-For a comprehensive guide on using this app and understanding its architecture, see the
-[MAUI + MVVM + Database Tutorial](https://edinburgh-napier.github.io/SET09102/tutorials/csharp/maui-mvvm-database/).
+## MAUI Application
+
+Open the solution in Visual Studio.
+
+Set:
+
+```text
+StarterApp
+```
+
+as the startup project.
+
+Run the application using:
+
+```text
+F5
+```
+
+## Android
+
+- Start Android Emulator
+- Select emulator device
+- Run the MAUI project
+
+---
+
+# How To Run Tests
+
+Open terminal in the solution directory.
+
+## Run All Tests
+
+```bash
+dotnet test
+```
+
+## Generate Code Coverage
+
+```bash
+dotnet test --collect:"XPlat Code Coverage"
+```
+
+## Generate HTML Coverage Report
+
+```bash
+reportgenerator -reports:"**/coverage.cobertura.xml" -targetdir:"coveragereport" -reporttypes:Html -classfilters:"-StarterApp.Database.Migrations.*"
+```
+
+Open:
+
+```text
+coveragereport/index.html
+```
+
+to view coverage results.
+
+---
+
+# API Endpoint Documentation
+
+## API Base URL
+
+```text
+https://set09102-api.b-davison.workers.dev
+```
+
+---
+
+# Architecture Overview
+
+The application follows a layered MVVM architecture.
+
+## Architecture Layers
+
+```text
+Views
+↓
+ViewModels
+↓
+Repositories / Services
+↓
+API / Database
+```
+
+---
+
+## MVVM Pattern
+
+- Views handle UI rendering
+- ViewModels manage presentation logic
+- Repositories abstract API access
+- Models represent application data
+
+---
+
+## Repository Pattern
+
+Repositories provide an abstraction layer between ViewModels and API calls.
+
+### Repositories Implemented
+
+- ItemRepository
+- RentalRepository
+
+### Interfaces Implemented
+
+- IItemRepository
+- IRentalRepository
+
+---
+
+## Testing
+
+Testing is implemented using:
+
+- xUnit
+- Moq
+- GitHub Actions CI pipeline
+
+### Current Testing Includes
+
+- Repository testing
+- Model testing
+- Database context testing
+- API response testing
